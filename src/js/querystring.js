@@ -28,8 +28,12 @@ function Querystring(qs) { // optionally pass a querystring to parse
 			: name;
 		
 		if ( this.params[name] ) {
-		  // save current value into an array
-		  this.params[name] = [ this.params[name] ];
+		  
+		  if ( !this.params[name].push ) {
+		    // save current value into an array
+  		  this.params[name] = [ this.params[name] ];
+		  }
+		  
 		  // push the new value on 
 		  this.params[name].push( value );
 		} else {

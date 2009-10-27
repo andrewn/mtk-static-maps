@@ -12,6 +12,11 @@
 	    margin: 0;
 	    padding: 0;
 	  }
+	  
+	  #google {
+	    position: absolute;
+	    right: 0;
+	  }
 	</style>
 	
 	<script type="text/javascript" src="http://wwwimg.bbc.co.uk/glow/gloader.js"></script>
@@ -19,11 +24,34 @@
 	
 	<script type="text/javascript" src="../js/querystring.js"></script>
 	<script type="text/javascript" src="../js/api.js"></script>
+	<script type="text/javascript">	  
+	  StaticMaps.loadGlow( function() {
+	    
+	    StaticMaps.on(  "center", 
+  	                  function(e) { 
+  	                    console.log("center"); 
+  	                    console.dir(e);
+  	                  });
+  	   StaticMaps.init( new Querystring().params );
+	    
+	   /*
+	    window.onload = function() {
+  	    var google = document.getElementById("google");
+  	    google.src = "http://maps.google.com/maps/api/staticmap" + location.search +"&sensor=false" + "&key=ABQIAAAAT4Hd7XkxofhNbie2pn_nVxT2yXp_ZAY8_ufC3CFXhHIE1NvwkxS9AEDVlIvc3mQmkMeP2qoDOqxrIQ";
+  	    google.width = "512";
+  	    google.height = "512";	    
+  	  }
+  	  */
+
+	  });
+	  
+	  
+	</script>
 </head>
 
 <body>
   <div id="map"></div>
-
+  <img id="google" />
 <!--
   <div style="position:absolute; right:0; top:0;">
     <textarea style="width:400px; height:200px;" id="qs">Some text</textarea>

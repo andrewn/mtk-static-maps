@@ -11,25 +11,35 @@
       
   var REQ_MSG = "Required parameter not found.";
   
-  gloader.load( 
-    [ "glow", "1", "glow.dom" ], {
-    onLoad: function( g ) {
-      glow = g;
-      glow.ready( bootstrap );
-    }
-  });
-  
-  function bootstrap() {
-    //console.log("bootstrap");
-    initMap( new Querystring().params );
-  }
-  
   // Public API
   StaticMaps = {
-    init : initMap
+    init : init,
+    loadGlow : loadGlow,
+    on : function( eventName, callback ) {
+      glow.events.addListener( this, eventName, callback );
+    }
   };
   
-  function initMap( params ) {
+  var Events = {
+      CENTER: "center"
+  }
+  
+  function loadGlow( fn ) {
+    gloader.load( 
+      [ "glow", "1", "glow.dom", "glow.events" ], {
+      onLoad: function( g ) {
+        glow = g;
+        fn();
+      }
+    });
+  }
+  
+  function init( p ) {
+    params = p;
+    glow.ready( initMap );
+  }
+  
+  function initMap() {
     
     // destroy previous map?
     glow.dom.get("#domId").empty();
@@ -64,6 +74,7 @@
     bbc.mtk.load( {
       onLoad: function() {
         map = new bbc.mtk.OpenLayers.Map( domId, map_opts );
+        console.log(map);
       }
     });
   }
@@ -90,19 +101,22 @@
     console.warn( msg );
   }
   
+  function fire( eventName, eventParams ) {
+    glow.events.fire( this, eventName, eventParams );
+  }
+  
   var Actions = {
     center  : function( param ) {
       var coords = param.split(",");
-      //console.log( "centering map %o", coords );
-      //console.log( map.getLonLat( coords[1], coords[0] ) );
       map.setCenter( map.getLonLat( coords[1], coords[0] ) );
+
+      fire( Events.CENTER, { lat: coords[0], lon: coords[1] } );
     },
     zoom    : function( param ) {
-      //console.log("zooming map %o", param );
-      map.zoomTo( param );
+      map.zoomTo( param * 1 );
     },
     markers : function( params ) {
-      
+
       var params = params.forEach ? params : [ params ];
       
       params.forEach( function (param) {
@@ -110,7 +124,9 @@
         var parts         = param.split("|"),
             stylePattern  = /:/i,
             styleInfo     = {};
-
+        
+        console.log("for each", parts);
+        
         var i   = 0,
             len = parts.length,
             parsingStyles = true;
@@ -118,22 +134,25 @@
         layer = new bbc.mtk.OpenLayers.Layer.PinPoints();
 
         for ( ; i < len; i++ ) {
+                    
           var p = parts[i];
           if ( parsingStyles == true && 
                 stylePattern.test( p ) ) {
             // store the style for later
             var style = p.split(":");
             styleInfo[ style[0] ] = style[1];
-
+            
+            console.log("store style for later", style);
+            
           } else {
             // it's a marker
             parsingStyles = false; // just in case
 
             var coords = p.split(",");
-            var map_coords = map.getPoint( coords[1], coords[0] );
+            var map_coords = map.getPoint( coords[1] * 1, coords[0] * 1 );
 
-            //console.log("added balloon", p.split(","), styleInfo);
-            //console.log(map_coords);
+            console.log("added balloon", p.split(","), styleInfo);
+            console.log(map_coords);
 
             window.p = layer.addBalloon( 
               map_coords, { 
@@ -142,8 +161,15 @@
               });
           }
         }
-
+        
+        window.l = layer;
+        
+        console.log("adding layer to map", layer);
+        
+        
         map.addLayer( layer );
+        
+        console.log("layer added to map", layer);
         
       });
     }
