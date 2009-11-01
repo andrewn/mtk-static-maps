@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+	<title>test</title>
+	
+	<style type="text/css">
+	  body { 
+	    margin: 0;
+	    padding: 0;
+	  }
+	  
+	  #map {
+	    width: 400px;
+	    height: 400px;
+	  }
+	</style>
+	
+	<script type="text/javascript" src="http://wwwimg.bbc.co.uk/glow/gloader.js"></script>
+	<script type="text/javascript" src="http://cdnedge.bbc.co.uk/mtk/maploader.js"></script>
+	
+	<script type="text/javascript" src="../js/an/static_map.js"></script>
+	<script type="text/javascript">	 
+	
+	  bbc.mtk.PROVIDERS = bbc.mtk.PROVIDERS.concat( ["CloudMade", "GoogleMaps"] );
+	
+	  var sm = new an.StaticMap({
+	    params: {
+	      // Set the state of the map
+	      center  : "40.714728,-73.998672",
+	      zoom    : "6",
+	      size    : "600x600",
+	      maptype : "satellite",
+	      provider: "cloudmade",
+	      
+	      // Add some map features
+	      markers : [
+	        // "markerStyles|markerLocation1|markerLocation2"
+	        "40.702147,-76",
+	        "color:green|41,-75",
+	        "color:blue|label:G|40.711614,-74.112318|41,-78"
+	      ]
+      }
+	  });
+	  
+	  glow.ready( function() {
+	    sm.performActions();
+	  });
+
+	</script>
+</head>
+
+<body>
+  <div id="map"></div>
+</body>
+</html>
