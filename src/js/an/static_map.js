@@ -217,11 +217,16 @@
     },
     
     markers: function( map, params ) {
-
+      
+      console.log(params);
+      
       if ( !params ) { return {}; }
   
       var markers = [],
-          params = typeof params.length != "undefined" ? params : [ params ];
+          params = typeof params.length == "undefined" ? params : [ params ];
+
+      console.log(params);
+
 
       function splitCoord(coord) {
         return { lat: coord.split(",")[0] * 1, lon: coord.split(",")[1] * 1};
