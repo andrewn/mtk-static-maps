@@ -134,6 +134,9 @@
     },
     
     size: function( map, paramStr ) {
+      
+      if(paramStr == null) return;
+      
       var sizeParts = paramStr.split("x"),
           state = {},
           width,
@@ -176,6 +179,9 @@
     },
     
     center: function( map, paramStr ) {
+      
+      if ( !paramStr ) { return {}; }
+      
        var coords = paramStr.split(","),
            state  = {},
            lat,
@@ -212,9 +218,11 @@
     
     markers: function( map, params ) {
 
+      if ( !params ) { return {}; }
+  
       var markers = [],
-          params = params.length ? params : [ params ];
-      
+          params = typeof params.length != "undefined" ? params : [ params ];
+
       function splitCoord(coord) {
         return { lat: coord.split(",")[0] * 1, lon: coord.split(",")[1] * 1};
       }

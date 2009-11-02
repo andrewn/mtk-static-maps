@@ -21,13 +21,18 @@
 	
 	<script type="text/javascript" src="http://wwwimg.bbc.co.uk/glow/gloader.js"></script>
 	<script type="text/javascript" src="http://cdnedge.bbc.co.uk/mtk/maploader.js"></script>
-	
+
+	<script type="text/javascript" src="../js/lib/querystring.js"></script>	
 	<script type="text/javascript" src="../js/an/static_map.js"></script>
 	<script type="text/javascript">	 
 	
 	  bbc.mtk.PROVIDERS = bbc.mtk.PROVIDERS.concat( ["CloudMade", "GoogleMaps"] );
-	
-	  var sm = new an.StaticMap({
+	  
+	  var qsParams = new Querystring();
+	  
+	  console.log(qsParams);
+	  
+	  var sm = new an.StaticMap( qsParams /*{
 	    params: {
 	      // Set the state of the map
 	      center  : "40.714728,-73.998672",
@@ -36,15 +41,18 @@
 	      maptype : "satellite",
 	      provider: "cloudmade",
 	      
-	      // Add some map features
+	      // Add map features
 	      markers : [
 	        // "markerStyles|markerLocation1|markerLocation2"
 	        "40.702147,-76",
 	        "color:green|41,-75",
 	        "color:blue|label:G|40.711614,-74.112318|41,-78"
+	      ],
+	      
+	      path : [
 	      ]
       }
-	  });
+	  }*/);
 	  
 	  glow.ready( function() {
 	    sm.performActions();
