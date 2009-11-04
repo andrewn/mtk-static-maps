@@ -153,9 +153,21 @@
               .css("width", width + "px")
               .css("height", height + "px");
       
-      window.innerWidth = width;
-      window.innerHeight = height;
+     // window.innerWidth = width;
+     // window.innerHeight = height;
       
+      (function resizeToViewport ( w, h ) {
+        window.resizeTo( screen.availWidth, screen.availHeight );
+        var innerW = window.innerWidth;
+        var innerH = window.innerHeight;
+        var ox = screen.availWidth - innerW;
+        var oy = screen.availHeight - innerH;
+        //console.log("resize " + (w+ox) + "  " + (h+oy));
+        window.resizeTo( w + ox, h + oy );
+      })( width, height )
+ 
+      //window.resizeTo( width, height );
+
       state.width = width;
       state.height = height;
       
