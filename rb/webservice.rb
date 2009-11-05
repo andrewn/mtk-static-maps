@@ -24,7 +24,7 @@ puts map_url
   map_url.gsub!( '?', '%3F')
 puts map_url
 
-  screenshot_url = 'http://mesa.welcomebackstage.com/screenshot/site/' + map_url
+  screenshot_url = 'http://mesa.welcomebackstage.com/screenshot/site/pause:5/' + map_url
 
 puts screenshot_url
 
