@@ -16,7 +16,11 @@ get "/map?" do
   map_url = 'http://mesa.welcomebackstage.com/staticmaps/html/staticmap.html?' + request.query_string
   screenshot_url = 'http://mesa.welcomebackstage.com/screenshot/site/' + map_url
   
-  Net::HTTP.get URI.parse( screenshot_url )
+  image_data = Net::HTTP.get URI.parse( screenshot_url )
+  
+  headers["Content-Type"] = "image/png"
+  
+  image_data
   # TODO: specify image format
 end
 
